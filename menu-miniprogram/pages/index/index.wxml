@@ -1,0 +1,63 @@
+<view class="container">
+  <!-- 轮播图 -->
+  <swiper class="banner" indicator-dots autoplay circular interval="3000">
+    <swiper-item>
+      <image src="/images/banner1.png" mode="aspectFill" class="banner-image"></image>
+    </swiper-item>
+    <swiper-item>
+      <image src="/images/banner2.png" mode="aspectFill" class="banner-image"></image>
+    </swiper-item>
+    <swiper-item>
+      <image src="/images/banner3.png" mode="aspectFill" class="banner-image"></image>
+    </swiper-item>
+  </swiper>
+
+  <!-- 餐厅信息 -->
+  <view class="card restaurant-info">
+    <view class="restaurant-name">美味餐厅</view>
+    <view class="restaurant-desc">新鲜食材 · 匠心烹饪 · 美味佳肴</view>
+    <view class="restaurant-meta">
+      <view class="meta-item">
+        <text class="meta-label">营业时间</text>
+        <text class="meta-value">10:00 - 22:00</text>
+      </view>
+      <view class="meta-item">
+        <text class="meta-label">联系电话</text>
+        <text class="meta-value">138-0000-0000</text>
+      </view>
+      <view class="meta-item">
+        <text class="meta-label">餐厅地址</text>
+        <text class="meta-value">北京市朝阳区xxx路xxx号</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 快捷入口 -->
+  <view class="quick-entry">
+    <view class="entry-item" bindtap="goToMenu">
+      <view class="entry-icon menu-icon"></view>
+      <text>浏览菜单</text>
+    </view>
+    <view class="entry-item" bindtap="goToCart">
+      <view class="entry-icon cart-icon"></view>
+      <text>我的购物车</text>
+      <view class="badge" wxif="{{cartCount > 0}}">{{cartCount}}</view>
+    </view>
+    <view class="entry-item" bindtap="goToOrder">
+      <view class="entry-icon order-icon"></view>
+      <text>我的订单</text>
+    </view>
+  </view>
+
+  <!-- 推荐菜品 -->
+  <view class="section">
+    <view class="section-title">今日推荐</view>
+    <scroll-view scroll-x class="recommend-list">
+      <view class="recommend-item" wx:for="{{recommendDishes}}" wx:key="_id" bindtap="goToDetail" data-id="{{item._id}}">
+        <image src="{{item.image}}" mode="aspectFill" class="recommend-image"></image>
+        <view class="recommend-name">{{item.name}}</view>
+        <view class="recommend-price">{{item.price}}</view>
+      </view>
+    </scroll-view>
+  </view>
+</view>

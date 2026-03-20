@@ -1,0 +1,54 @@
+<view class="container">
+  <!-- 订单状态筛选 -->
+  <view class="status-tabs">
+    <view class="status-tab {{activeStatus === 'all' ? 'active' : ''}}" bindtap="filterOrders" data-status="all">全部</view>
+    <view class="status-tab {{activeStatus === '待支付' ? 'active' : ''}}" bindtap="filterOrders" data-status="待支付">待支付</view>
+    <view class="status-tab {{activeStatus === '已支付' ? 'active' : ''}}" bindtap="filterOrders" data-status="已支付">已支付</view>
+    <view class="status-tab {{activeStatus === '已完成' ? 'active' : ''}}" bindtap="filterOrders" data-status="已完成">已完成</view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="order-list">
+    <view class="order-item card" wx:for="{{filteredOrders}}" wx:key="_id">
+      <view class="order-header">
+        <text class="order-number">订单号：{{item.orderNo}}</text>
+        <text class="order-status {{item.status === '待支付' ? 'pending' : item.status === '已完成' ? 'completed' : ''}}">{{item.status}}</text>
+      </view>
+      
+      <view class="order-content">
+        <view class="order-dish" wx:for="{{item.items}}" wx:for-item="dish" wx:key="_id">
+          <image src="{{dish.image}}" mode="aspectFill" class="dish-image"></image>
+          <view class="dish-info">
+            <text class="dish-name">{{dish.name}}</text>
+            <text class="dish-quantity">x{{dish.quantity}}</text>
+          </view>
+          <text class="dish-price">{{dish.price * dish.quantity}}</text>
+        </view>
+      </view>
+      
+      <view class="order-footer">
+        <view class="order-time">{{item.createTime}}</view>
+        <view class="order-total">
+          <text class="total-label">合计：</text>
+          <text class="total-price">{{item.totalPrice}}</text>
+        </view>
+      </view>
+      
+      <view class="order-actions" wx:if="{{item.status === '待支付'}}">
+        <view class="action-btn cancel" bindtap="cancelOrder" data-id="{{item._id}}">取消订单</view>
+        <view class="action-btn pay" bindtap="payOrder" data-id="{{item._id}}">立即支付</view>
+      </view>
+      
+      <view class="order-actions" wx:if="{{item.status === '已完成'}}">
+        <view class="action-btn" bindtap="reorder" data-order="{{item}}">再来一单</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{filteredOrders.length === 0}}">
+    <view class="empty-icon"></view>
+    <text class="empty-text">暂无订单</text>
+    <view class="go-order-btn" bindtap="goToMenu">去点餐</view>
+  </view>
+</view>
